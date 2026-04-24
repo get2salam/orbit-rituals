@@ -4,28 +4,35 @@ A local-first ritual planner for daily, weekly, and monthly operating rhythms.
 
 ![Orbit Rituals preview](docs/preview.svg)
 
-Orbit Rituals is a small local-first planning tool for solo builders, operators, and creative teams who want a cleaner way to manage rituals. Add items, score the signal, track the friction, and keep the strongest opportunities visible without needing a backend or build step.
+Orbit Rituals is a focused rhythm board for founders, operators, and solo builders who want their routines to survive real work pressure. It helps you design rituals with cues, streaks, duration, and next-due timing so the operating system behind the business stays visible.
 
-## Features
+## What it does
 
-- Local-first persistence with `localStorage`
-- Search and filter controls
-- Ranked list sorted by signal minus friction
-- Inline editor for title, notes, type, status, score, and effort
-- Import/export JSON backups
-- Re-seed action for resetting the sample board
-- Keyboard shortcuts: `N` for new, `/` for search
-- No build tooling, just open in a browser
+- ranks rituals by leverage, consistency, and urgency
+- tracks **cue**, **last done**, **next due**, **duration**, and **streak** for each rhythm
+- highlights the most consistent ritual, the one slipping, and the biggest ritual block
+- includes quick actions for logging a ritual today, nudging the next due date, and resetting a streak when a rhythm breaks
+- renders a “today orbit” queue and cadence distribution beneath the main board
+- saves locally in the browser with JSON import/export backups
+
+## Why it feels different
+
+Orbit Rituals is not a generic habit tracker. It is built around operational rhythms, the repeatable actions that keep a business calm, intentional, and moving forward even when the week gets messy.
 
 ## Quick start
 
 ```bash
-git clone https://github.com/<you>/orbit-rituals.git
+git clone https://github.com/get2salam/orbit-rituals.git
 cd orbit-rituals
 python -m http.server 8000
 ```
 
 Then open <http://localhost:8000>.
+
+## Keyboard shortcuts
+
+- `N` creates a new ritual
+- `/` focuses the search box
 
 ## Data shape
 
@@ -38,7 +45,11 @@ Then open <http://localhost:8000>.
       "category": "Daily",
       "state": "Active",
       "score": 9,
-      "effort": 2
+      "streak": 6,
+      "duration": 20,
+      "cue": "Before opening chat apps",
+      "lastDone": "2026-04-24",
+      "nextDue": "2026-04-25"
     }
   ]
 }
