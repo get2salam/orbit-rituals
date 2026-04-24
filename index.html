@@ -11,9 +11,9 @@
     <div class="shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow">Local-first micro app</p>
+          <p class="eyebrow">Rhythm design workspace</p>
           <h1>Orbit Rituals</h1>
-          <p class="lede">A local-first ritual planner for daily, weekly, and monthly operating rhythms.</p>
+          <p class="lede">Design the daily, weekly, and monthly rhythms that keep the business steady when everything else gets noisy.</p>
         </div>
         <div class="actions">
           <button class="btn" data-action="import">Import</button>
@@ -25,22 +25,23 @@
 
       <section class="hero card">
         <div>
-          <p class="eyebrow">Rituals board</p>
+          <p class="eyebrow">Operating rhythm board</p>
           <h2 data-role="board-title"></h2>
           <p data-role="board-subtitle"></p>
         </div>
-        <p class="accent">Design the rhythms that keep your business steady when life gets noisy.</p>
+        <p class="accent">Map the rhythms that protect planning, shipping, recovery, and review so the good habits survive your busiest weeks.</p>
       </section>
 
       <section class="stats" data-role="stats"></section>
+      <section class="insights" data-role="insights"></section>
 
       <section class="controls card">
         <label>
           <span>Search</span>
-          <input type="search" data-field="search" placeholder="Search rituals..." />
+          <input type="search" data-field="search" placeholder="Search rituals, cues, and notes..." />
         </label>
         <label>
-          <span>Ritual type</span>
+          <span>Rhythm type</span>
           <select data-field="category"></select>
         </label>
         <label>
@@ -54,14 +55,19 @@
         <article class="card list-panel">
           <div class="panel-head">
             <div>
-              <strong>Rituals</strong>
-              <p>Sorted by signal minus friction.</p>
+              <strong>Ritual board</strong>
+              <p>Ranked by leverage, consistency, and how close the next repetition is.</p>
             </div>
             <span class="chip" data-role="count"></span>
           </div>
           <div class="list" data-role="list"></div>
         </article>
         <article class="card editor-panel" data-role="editor"></article>
+      </section>
+
+      <section class="secondary">
+        <article class="card secondary-panel" data-role="secondary-primary"></article>
+        <article class="card secondary-panel" data-role="secondary-secondary"></article>
       </section>
     </div>
     <script type="module" src="./js/main.js"></script>
