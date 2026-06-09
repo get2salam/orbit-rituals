@@ -34,6 +34,16 @@ Then open <http://localhost:8000>.
 - `N` creates a new ritual
 - `/` focuses the search box
 
+## Local verification
+
+Catch broken asset references before they land on `main`:
+
+```bash
+npm run verify
+```
+
+The check walks `index.html` and `README.md` for local `src`, `href`, and image references and exits non-zero if any path is missing from disk. External URLs, anchors, and `data:` URIs are skipped. The same script runs on every push and pull request via the `verify` GitHub Actions workflow.
+
 ## Data shape
 
 ```json
