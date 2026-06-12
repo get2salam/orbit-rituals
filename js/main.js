@@ -1,3 +1,5 @@
+import { bumpDate, cadenceDays, daysFromToday, priority, todayISO } from './ritual-scoring.js';
+
 const CONFIG = {
   slug: 'orbit-rituals',
   title: 'Orbit Rituals',
@@ -89,33 +91,6 @@ function uid() {
   return `${CONFIG.slug}_${Math.random().toString(36).slice(2, 10)}`;
 }
 
-function todayISO(offset = 0) {
-  const date = new Date();
-  date.setHours(0, 0, 0, 0);
-  date.setDate(date.getDate() + offset);
-  return date.toISOString().slice(0, 10);
-}
-
-function daysFromToday(value) {
-  if (!value) return 999;
-  const today = new Date(`${todayISO()}T00:00:00`);
-  const target = new Date(`${value}T00:00:00`);
-  return Math.round((target - today) / 86400000);
-}
-
-function bumpDate(value, days) {
-  const date = new Date(`${value || todayISO()}T00:00:00`);
-  date.setDate(date.getDate() + days);
-  return date.toISOString().slice(0, 10);
-}
-
-function cadenceDays(category) {
-  if (category === 'Daily') return 1;
-  if (category === 'Weekly') return 7;
-  if (category === 'Monthly') return 30;
-  return 2;
-}
-
 function formatDate(value) {
   if (!value) return 'No date';
   return new Date(`${value}T00:00:00`).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' });
@@ -144,12 +119,6 @@ function normalize(item = {}) {
     nextDue: item.nextDue || todayISO(1),
     note: item.note || 'Capture why this rhythm matters and what makes it stick.',
   };
-}
-
-function priority(item) {
-  const dueBoost = Math.max(0, 3 - Math.max(daysFromToday(item.nextDue), 0)) * 5;
-  const stateBoost = item.state === 'Active' ? 8 : item.state === 'Needs work' ? 4 : item.state === 'Draft' ? 2 : -8;
-  return item.score * 6 + item.streak * 3 + dueBoost + stateBoost - item.effort * 4;
 }
 
 function seedState() {

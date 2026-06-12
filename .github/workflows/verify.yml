@@ -13,5 +13,5 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - name: Check asset references in index.html and README.md
-        run: node tools/verify-links.mjs
+      - name: Run static verification and scoring tests
+        run: npm test

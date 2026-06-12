@@ -5,8 +5,8 @@
   "description": "A local-first ritual planner for daily, weekly, and monthly operating rhythms.",
   "type": "module",
   "scripts": {
-    "verify": "node tools/verify-links.mjs",
-    "test": "node tools/verify-links.mjs"
+    "verify": "node tools/verify-links.mjs && node --test tools/*.test.mjs",
+    "test": "npm run verify"
   },
   "license": "MIT",
   "engines": {

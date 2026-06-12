@@ -36,13 +36,13 @@ Then open <http://localhost:8000>.
 
 ## Local verification
 
-Catch broken asset references before they land on `main`:
+Catch broken asset references and scoring regressions before they land on `main`:
 
 ```bash
 npm run verify
 ```
 
-The check walks `index.html` and `README.md` for local `src`, `href`, and image references and exits non-zero if any path is missing from disk. External URLs, anchors, and `data:` URIs are skipped. The same script runs on every push and pull request via the `verify` GitHub Actions workflow.
+The check walks `index.html` and `README.md` for local `src`, `href`, and image references, then runs deterministic `node:test` coverage for the ritual scoring engine. Asset checks exit non-zero if any path is missing from disk; external URLs, anchors, and `data:` URIs are skipped. The same verification suite runs on every push and pull request via the `verify` GitHub Actions workflow.
 
 ## Data shape
 
