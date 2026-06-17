@@ -1,0 +1,25 @@
+#!/usr/bin/env node
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+
+const [indexHtml, appCss, mainJs] = await Promise.all([
+  readFile(new URL('../index.html', import.meta.url), 'utf8'),
+  readFile(new URL('../styles/app.css', import.meta.url), 'utf8'),
+  readFile(new URL('../js/main.js', import.meta.url), 'utf8'),
+]);
+
+test('dynamic ritual updates have a persistent screen-reader announcer', () => {
+  assert.match(indexHtml, /role="status"/);
+  assert.match(indexHtml, /aria-live="polite"/);
+  assert.match(indexHtml, /data-role="announcer"/);
+  assert.match(appCss, /\.sr-only\s*{/);
+  assert.match(mainJs, /function announce\(message\)/);
+});
+
+test('ritual result buttons expose selection state and descriptive labels', () => {
+  assert.match(mainJs, /role', 'listbox'/);
+  assert.match(mainJs, /role="option"/);
+  assert.match(mainJs, /aria-selected=/);
+  assert.match(mainJs, /aria-label="\$\{escapeHtml\(ritualButtonLabel\(item\)\)\}"/);
+});

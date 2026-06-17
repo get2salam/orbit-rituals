@@ -66,6 +66,7 @@ const refs = {
   category: document.querySelector('[data-field="category"]'),
   status: document.querySelector('[data-field="status"]'),
   importFile: document.querySelector('#import-file'),
+  announcer: document.querySelector('[data-role="announcer"]'),
 };
 
 const toastHost = (() => {
@@ -75,7 +76,12 @@ const toastHost = (() => {
   return host;
 })();
 
+function announce(message) {
+  refs.announcer.textContent = message;
+}
+
 function showToast(message) {
+  announce(message);
   const node = document.createElement('div');
   node.className = 'toast';
   node.textContent = message;
@@ -272,6 +278,12 @@ function toneForDue(item) {
   return 'success';
 }
 
+function ritualButtonLabel(item) {
+  const dueDays = daysFromToday(item.nextDue);
+  const dueText = dueDays <= 0 ? 'due now' : `due in ${dueDays} day${dueDays === 1 ? '' : 's'}`;
+  return `${item.title}, ${item.category}, ${item.state}, priority ${priority(item)}, ${dueText}. ${item.duration} minutes, ${item.streak} streak. Cue: ${item.cue}`;
+}
+
 function renderStats(items) {
   const active = state.items.filter((item) => item.state === 'Active').length;
   const dueToday = state.items.filter((item) => daysFromToday(item.nextDue) <= 0 && item.state !== 'Archived').length;
@@ -325,8 +337,10 @@ function renderInsights(items) {
 
 function renderList(items) {
   if (!items.length) {
+    refs.list.removeAttribute('role');
+    refs.list.removeAttribute('aria-label');
     refs.list.innerHTML = `
-      <div class="empty">
+      <div class="empty" role="status">
         <strong>No rituals yet</strong>
         <p>Plant a rhythm for planning, shipping, recovery, or review.</p>
       </div>
@@ -334,8 +348,10 @@ function renderList(items) {
     return;
   }
 
+  refs.list.setAttribute('role', 'listbox');
+  refs.list.setAttribute('aria-label', 'Ritual board results');
   refs.list.innerHTML = items.map((item) => `
-    <button class="item ${item.id === state.ui.selectedId ? 'is-selected' : ''}" type="button" data-id="${item.id}">
+    <button class="item ${item.id === state.ui.selectedId ? 'is-selected' : ''}" type="button" role="option" aria-selected="${item.id === state.ui.selectedId}" aria-label="${escapeHtml(ritualButtonLabel(item))}" data-id="${item.id}">
       <div class="item-top">
         <strong>${item.title}</strong>
         <span class="score">${priority(item)}</span>
@@ -494,6 +510,7 @@ function render() {
   renderList(items);
   renderEditor(selectedItem());
   renderPanels();
+  announce(`${items.length} ritual${items.length === 1 ? '' : 's'} shown. ${selectedItem() ? `${selectedItem().title} selected.` : 'No ritual selected.'}`);
 }
 
 document.addEventListener('click', (event) => {
