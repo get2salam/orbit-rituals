@@ -29,6 +29,20 @@ python -m http.server 8000
 
 Then open <http://localhost:8000>.
 
+## Runnable backup example
+
+Try the launch-week backup fixture without creating data by hand:
+
+1. Start the local server from the quick start.
+2. Open <http://localhost:8000> and choose **Import**.
+3. Select `docs/sample-backup.json`.
+
+The example imports three launch-week rituals with daily, weekly, and recovery cadences so you can verify the board ranking, search state, and import flow quickly. To check that the documented backup still matches the app’s accepted categories, states, cadence dates, and priority queue, run:
+
+```bash
+node --test tools/backup-example.test.mjs
+```
+
 ## Keyboard shortcuts
 
 - `N` creates a new ritual

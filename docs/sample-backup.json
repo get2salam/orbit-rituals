@@ -1,0 +1,52 @@
+{
+  "schema": "orbit-rituals/v2",
+  "boardTitle": "Launch week operating rhythm",
+  "boardSubtitle": "A focused import fixture for keeping launch rituals visible under pressure.",
+  "items": [
+    {
+      "title": "Daily launch triage",
+      "category": "Daily",
+      "state": "Active",
+      "score": 9,
+      "effort": 2,
+      "streak": 5,
+      "duration": 25,
+      "cue": "Before the first customer reply",
+      "lastDone": "2026-04-24",
+      "nextDue": "2026-04-25",
+      "note": "Review blockers, customer replies, and today’s one shipping promise."
+    },
+    {
+      "title": "Friday metrics review",
+      "category": "Weekly",
+      "state": "Active",
+      "score": 8,
+      "effort": 3,
+      "streak": 3,
+      "duration": 45,
+      "cue": "After closing the final support loop",
+      "lastDone": "2026-04-18",
+      "nextDue": "2026-04-25",
+      "note": "Check activation, retention signals, and the next experiment to protect."
+    },
+    {
+      "title": "Recovery shutdown block",
+      "category": "Recovery",
+      "state": "Needs work",
+      "score": 7,
+      "effort": 2,
+      "streak": 1,
+      "duration": 30,
+      "cue": "When the launch board is updated",
+      "lastDone": "2026-04-23",
+      "nextDue": "2026-04-25",
+      "note": "Clear the desk, capture loose loops, and stop before quality drops."
+    }
+  ],
+  "ui": {
+    "search": "launch",
+    "category": "all",
+    "status": "all",
+    "selectedId": null
+  }
+}
