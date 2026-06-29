@@ -18,7 +18,7 @@
         <div class="actions">
           <button class="btn" data-action="import">Import</button>
           <button class="btn" data-action="export">Export</button>
-          <button class="btn btn-primary" data-action="new">New ritual</button>
+          <button class="btn btn-primary" data-action="new" aria-keyshortcuts="n">New ritual</button>
           <input id="import-file" type="file" accept=".json,application/json" hidden />
         </div>
       </header>
@@ -38,7 +38,7 @@
       <section class="controls card">
         <label>
           <span>Search</span>
-          <input type="search" data-field="search" placeholder="Search rituals, cues, and notes..." />
+          <input type="search" data-field="search" placeholder="Search rituals, cues, and notes..." aria-keyshortcuts="/" />
         </label>
         <label>
           <span>Rhythm type</span>

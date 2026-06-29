@@ -296,7 +296,7 @@ function renderStats(items) {
     ['Average streak', avgStreak, 'consistency across your rituals'],
   ];
   refs.stats.innerHTML = cards.map(([label, valueText, note]) => `
-    <article class="card stat">
+    <article class="card stat" aria-label="${label}: ${valueText}">
       <span>${label}</span>
       <strong>${valueText}</strong>
       <small>${note}</small>
@@ -427,18 +427,18 @@ function renderEditor(item) {
       <div class="field-grid three">
         <label class="field range-wrap">
           <span>Streak</span>
-          <input type="range" min="0" max="30" data-item-field="streak" value="${item.streak}" />
-          <output>${item.streak}</output>
+          <input type="range" id="${escapeHtml(item.id)}-streak" min="0" max="30" data-item-field="streak" value="${item.streak}" />
+          <output for="${escapeHtml(item.id)}-streak">${item.streak}</output>
         </label>
         <label class="field range-wrap">
           <span>Leverage</span>
-          <input type="range" min="1" max="10" data-item-field="score" value="${item.score}" />
-          <output>${item.score} / 10</output>
+          <input type="range" id="${escapeHtml(item.id)}-score" min="1" max="10" data-item-field="score" value="${item.score}" />
+          <output for="${escapeHtml(item.id)}-score">${item.score} / 10</output>
         </label>
         <label class="field range-wrap">
           <span>Friction</span>
-          <input type="range" min="1" max="10" data-item-field="effort" value="${item.effort}" />
-          <output>${item.effort} / 10</output>
+          <input type="range" id="${escapeHtml(item.id)}-effort" min="1" max="10" data-item-field="effort" value="${item.effort}" />
+          <output for="${escapeHtml(item.id)}-effort">${item.effort} / 10</output>
         </label>
       </div>
       <label class="field">

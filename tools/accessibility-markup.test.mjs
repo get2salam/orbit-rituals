@@ -23,3 +23,21 @@ test('ritual result buttons expose selection state and descriptive labels', () =
   assert.match(mainJs, /aria-selected=/);
   assert.match(mainJs, /aria-label="\$\{escapeHtml\(ritualButtonLabel\(item\)\)\}"/);
 });
+
+test('range inputs have unique IDs and linked output elements for screen readers', () => {
+  assert.match(mainJs, /id="\$\{escapeHtml\(item\.id\)\}-streak"/);
+  assert.match(mainJs, /for="\$\{escapeHtml\(item\.id\)\}-streak"/);
+  assert.match(mainJs, /id="\$\{escapeHtml\(item\.id\)\}-score"/);
+  assert.match(mainJs, /for="\$\{escapeHtml\(item\.id\)\}-score"/);
+  assert.match(mainJs, /id="\$\{escapeHtml\(item\.id\)\}-effort"/);
+  assert.match(mainJs, /for="\$\{escapeHtml\(item\.id\)\}-effort"/);
+});
+
+test('stat cards expose a summary aria-label for screen reader comprehension', () => {
+  assert.match(mainJs, /aria-label="\$\{label\}: \$\{valueText\}"/);
+});
+
+test('key controls advertise their keyboard shortcuts via aria-keyshortcuts', () => {
+  assert.match(indexHtml, /aria-keyshortcuts="n"/);
+  assert.match(indexHtml, /aria-keyshortcuts="\/"/);
+});
