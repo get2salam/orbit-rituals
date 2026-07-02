@@ -225,10 +225,16 @@ function exportState() {
 async function importState(file) {
   const raw = await file.text();
   const parsed = JSON.parse(raw);
+  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+    throw new Error('Backup file must contain a JSON object.');
+  }
+  if (parsed.items !== undefined && !Array.isArray(parsed.items)) {
+    throw new Error('Backup "items" must be a list of rituals.');
+  }
   commit({
     ...seedState(),
     ...parsed,
-    items: (parsed.items || []).map((item) => normalize(item)),
+    items: (parsed.items || []).filter((item) => item && typeof item === 'object').map((item) => normalize(item)),
     ui: { ...seedState().ui, ...(parsed.ui || {}) },
   });
   showToast('Imported backup.');
@@ -329,8 +335,8 @@ function renderInsights(items) {
   refs.insights.innerHTML = cards.map((card) => `
     <article class="card insight-card">
       <p class="eyebrow">${card.label}</p>
-      <h3>${card.title}</h3>
-      <p>${card.body}</p>
+      <h3>${escapeHtml(card.title)}</h3>
+      <p>${escapeHtml(card.body)}</p>
     </article>
   `).join('');
 }
@@ -353,10 +359,10 @@ function renderList(items) {
   refs.list.innerHTML = items.map((item) => `
     <button class="item ${item.id === state.ui.selectedId ? 'is-selected' : ''}" type="button" role="option" aria-selected="${item.id === state.ui.selectedId}" aria-label="${escapeHtml(ritualButtonLabel(item))}" data-id="${item.id}">
       <div class="item-top">
-        <strong>${item.title}</strong>
+        <strong>${escapeHtml(item.title)}</strong>
         <span class="score">${priority(item)}</span>
       </div>
-      <p>${item.note}</p>
+      <p>${escapeHtml(item.note)}</p>
       <div class="badge-row">
         <span class="pill ${toneForDue(item)}">Next ${formatDate(item.nextDue)}</span>
         <span class="pill">${item.duration} min</span>
@@ -365,7 +371,7 @@ function renderList(items) {
       <div class="meta">
         <span>${item.category}</span>
         <span>${item.state}</span>
-        <span>${item.cue}</span>
+        <span>${escapeHtml(item.cue)}</span>
         <span>Last done ${formatDate(item.lastDone)}</span>
       </div>
     </button>
@@ -387,7 +393,7 @@ function renderEditor(item) {
     <div class="editor-head">
       <div>
         <p class="eyebrow">Ritual editor</p>
-        <h3>${item.title}</h3>
+        <h3>${escapeHtml(item.title)}</h3>
       </div>
       <span class="score">Priority ${priority(item)}</span>
     </div>
@@ -472,16 +478,17 @@ function renderPanels() {
       ${queue.slice(0, 4).map((item) => `
         <div class="mini-card">
           <div class="inline-split">
-            <strong>${item.title}</strong>
+            <strong>${escapeHtml(item.title)}</strong>
             <span class="pill ${toneForDue(item)}">${formatDate(item.nextDue)}</span>
           </div>
-          <p>${item.duration} minutes, ${item.streak} streak, cue: ${item.cue}.</p>
+          <p>${item.duration} minutes, ${item.streak} streak, cue: ${escapeHtml(item.cue)}.</p>
         </div>
       `).join('') || `<div class="empty"><strong>No live rituals</strong><p>Archived rhythms stay out of the queue.</p></div>`}
     </div>
   `;
 
   const byCategory = CONFIG.categories.map((entry) => ({ entry, count: state.items.filter((item) => item.category === entry && item.state !== 'Archived').length }));
+  const strongestStreakTitle = state.items.length ? [...state.items].sort((a, b) => b.streak - a.streak)[0].title : '—';
   refs.secondarySecondary.innerHTML = `
     <div class="secondary-head">
       <div>
@@ -492,7 +499,7 @@ function renderPanels() {
     </div>
     <ul class="metric-list">
       ${byCategory.map(({ entry, count }) => `<li><span>${entry}</span><strong>${count}</strong></li>`).join('')}
-      <li><span>Strongest streak</span><strong>${state.items.length ? [...state.items].sort((a, b) => b.streak - a.streak)[0].title : '—'}</strong></li>
+      <li><span>Strongest streak</span><strong>${escapeHtml(strongestStreakTitle)}</strong></li>
     </ul>
   `;
 }
